@@ -1,5 +1,4 @@
-# IJCAI24 Submission
+# KR 2024 Submission
 
 Title: Declarative Knowledge Distillation from Large Language Models for Visual Question Answering
-
-Paper ID: 6318
+Authors: Thomas Eiter, Jan Hadl, Nelson Higuera and Johannes Oetsch

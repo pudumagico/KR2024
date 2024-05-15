@@ -37,12 +37,12 @@ logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("clingo_errors")
 
 client = OpenAI(
-    api_key="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",
+    api_key="",
 )
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 os.environ["COHERE_API_KEY"] = ""
 os.environ["HUGGINGFACE_API_KEY"] = ""
-os.environ["MISTRAL_API_KEY"] = "qwZ4Zw3j4gptdGkpRvMMt4hojoYVCrHv"
+os.environ["MISTRAL_API_KEY"] = ""
 os.environ["ANYSCALE_API_KEY"] = ""
 os.environ["VOYAGE_API_KEY"] = ""
 os.environ["LANGFUSE_PUBLIC_KEY"] = ""
