@@ -1,0 +1,506 @@
+[
+    {
+        "step": 200,
+        "correct": 70,
+        "incorrect": 128,
+        "unsat": 5,
+        "skipped": 2,
+        "correct_percentage": 35.35353535353536
+    },
+    {
+        "step": 400,
+        "correct": 143,
+        "incorrect": 253,
+        "unsat": 12,
+        "skipped": 4,
+        "correct_percentage": 36.11111111111111
+    },
+    {
+        "step": 600,
+        "correct": 228,
+        "incorrect": 366,
+        "unsat": 20,
+        "skipped": 6,
+        "correct_percentage": 38.38383838383838
+    },
+    {
+        "step": 800,
+        "correct": 311,
+        "incorrect": 478,
+        "unsat": 26,
+        "skipped": 11,
+        "correct_percentage": 39.4169835234474
+    },
+    {
+        "step": 1000,
+        "correct": 391,
+        "incorrect": 598,
+        "unsat": 32,
+        "skipped": 11,
+        "correct_percentage": 39.53488372093023
+    },
+    {
+        "step": 1200,
+        "correct": 479,
+        "incorrect": 706,
+        "unsat": 35,
+        "skipped": 15,
+        "correct_percentage": 40.42194092827005
+    },
+    {
+        "step": 1400,
+        "correct": 560,
+        "incorrect": 821,
+        "unsat": 39,
+        "skipped": 19,
+        "correct_percentage": 40.55032585083273
+    },
+    {
+        "step": 1600,
+        "correct": 639,
+        "incorrect": 940,
+        "unsat": 47,
+        "skipped": 21,
+        "correct_percentage": 40.46865104496517
+    },
+    {
+        "step": 1800,
+        "correct": 706,
+        "incorrect": 1072,
+        "unsat": 53,
+        "skipped": 22,
+        "correct_percentage": 39.707536557930254
+    },
+    {
+        "step": 2000,
+        "correct": 788,
+        "incorrect": 1189,
+        "unsat": 61,
+        "skipped": 23,
+        "correct_percentage": 39.858371269600404
+    },
+    {
+        "step": 2200,
+        "correct": 851,
+        "incorrect": 1322,
+        "unsat": 63,
+        "skipped": 27,
+        "correct_percentage": 39.16244822825587
+    },
+    {
+        "step": 2400,
+        "correct": 925,
+        "incorrect": 1448,
+        "unsat": 79,
+        "skipped": 27,
+        "correct_percentage": 38.98019384745049
+    },
+    {
+        "step": 2600,
+        "correct": 1000,
+        "incorrect": 1570,
+        "unsat": 89,
+        "skipped": 30,
+        "correct_percentage": 38.91050583657588
+    },
+    {
+        "step": 2800,
+        "correct": 1082,
+        "incorrect": 1688,
+        "unsat": 96,
+        "skipped": 30,
+        "correct_percentage": 39.061371841155236
+    },
+    {
+        "step": 3000,
+        "correct": 1150,
+        "incorrect": 1819,
+        "unsat": 102,
+        "skipped": 31,
+        "correct_percentage": 38.733580330077466
+    },
+    {
+        "step": 3200,
+        "correct": 1223,
+        "incorrect": 1943,
+        "unsat": 110,
+        "skipped": 34,
+        "correct_percentage": 38.62918509159823
+    },
+    {
+        "step": 3400,
+        "correct": 1303,
+        "incorrect": 2061,
+        "unsat": 120,
+        "skipped": 36,
+        "correct_percentage": 38.73365041617122
+    },
+    {
+        "step": 3600,
+        "correct": 1393,
+        "incorrect": 2171,
+        "unsat": 124,
+        "skipped": 36,
+        "correct_percentage": 39.08529741863075
+    },
+    {
+        "step": 3800,
+        "correct": 1475,
+        "incorrect": 2285,
+        "unsat": 131,
+        "skipped": 40,
+        "correct_percentage": 39.22872340425532
+    },
+    {
+        "step": 4000,
+        "correct": 1547,
+        "incorrect": 2411,
+        "unsat": 139,
+        "skipped": 42,
+        "correct_percentage": 39.08539666498231
+    },
+    {
+        "step": 4200,
+        "correct": 1623,
+        "incorrect": 2532,
+        "unsat": 147,
+        "skipped": 45,
+        "correct_percentage": 39.061371841155236
+    },
+    {
+        "step": 4400,
+        "correct": 1711,
+        "incorrect": 2642,
+        "unsat": 154,
+        "skipped": 47,
+        "correct_percentage": 39.30622559154606
+    },
+    {
+        "step": 4600,
+        "correct": 1789,
+        "incorrect": 2756,
+        "unsat": 160,
+        "skipped": 55,
+        "correct_percentage": 39.361936193619364
+    },
+    {
+        "step": 4800,
+        "correct": 1868,
+        "incorrect": 2875,
+        "unsat": 170,
+        "skipped": 57,
+        "correct_percentage": 39.38435589289479
+    },
+    {
+        "step": 5000,
+        "correct": 1958,
+        "incorrect": 2981,
+        "unsat": 176,
+        "skipped": 61,
+        "correct_percentage": 39.643652561247215
+    },
+    {
+        "step": 5200,
+        "correct": 2036,
+        "incorrect": 3101,
+        "unsat": 183,
+        "skipped": 63,
+        "correct_percentage": 39.63402764259295
+    },
+    {
+        "step": 5400,
+        "correct": 2117,
+        "incorrect": 3219,
+        "unsat": 189,
+        "skipped": 64,
+        "correct_percentage": 39.67391304347826
+    },
+    {
+        "step": 5600,
+        "correct": 2196,
+        "incorrect": 3335,
+        "unsat": 199,
+        "skipped": 69,
+        "correct_percentage": 39.70348942325077
+    },
+    {
+        "step": 5800,
+        "correct": 2268,
+        "incorrect": 3461,
+        "unsat": 207,
+        "skipped": 71,
+        "correct_percentage": 39.58806074358527
+    },
+    {
+        "step": 6000,
+        "correct": 2351,
+        "incorrect": 3570,
+        "unsat": 209,
+        "skipped": 79,
+        "correct_percentage": 39.70613072116196
+    },
+    {
+        "step": 6200,
+        "correct": 2435,
+        "incorrect": 3686,
+        "unsat": 218,
+        "skipped": 79,
+        "correct_percentage": 39.78108152262702
+    },
+    {
+        "step": 6400,
+        "correct": 2514,
+        "incorrect": 3805,
+        "unsat": 224,
+        "skipped": 81,
+        "correct_percentage": 39.78477607216332
+    },
+    {
+        "step": 6600,
+        "correct": 2593,
+        "incorrect": 3924,
+        "unsat": 230,
+        "skipped": 83,
+        "correct_percentage": 39.78824612551788
+    },
+    {
+        "step": 6800,
+        "correct": 2684,
+        "incorrect": 4032,
+        "unsat": 235,
+        "skipped": 84,
+        "correct_percentage": 39.9642644431209
+    },
+    {
+        "step": 7000,
+        "correct": 2764,
+        "incorrect": 4149,
+        "unsat": 245,
+        "skipped": 87,
+        "correct_percentage": 39.98264140026038
+    },
+    {
+        "step": 7200,
+        "correct": 2849,
+        "incorrect": 4259,
+        "unsat": 248,
+        "skipped": 92,
+        "correct_percentage": 40.08159819921215
+    },
+    {
+        "step": 7400,
+        "correct": 2932,
+        "incorrect": 4374,
+        "unsat": 253,
+        "skipped": 94,
+        "correct_percentage": 40.131398850260055
+    },
+    {
+        "step": 7600,
+        "correct": 3011,
+        "incorrect": 4491,
+        "unsat": 257,
+        "skipped": 98,
+        "correct_percentage": 40.13596374300187
+    },
+    {
+        "step": 7800,
+        "correct": 3072,
+        "incorrect": 4626,
+        "unsat": 260,
+        "skipped": 102,
+        "correct_percentage": 39.90646921278254
+    },
+    {
+        "step": 8000,
+        "correct": 3152,
+        "incorrect": 4741,
+        "unsat": 265,
+        "skipped": 107,
+        "correct_percentage": 39.93411883947802
+    },
+    {
+        "step": 8200,
+        "correct": 3223,
+        "incorrect": 4865,
+        "unsat": 273,
+        "skipped": 112,
+        "correct_percentage": 39.84915924826904
+    },
+    {
+        "step": 8400,
+        "correct": 3288,
+        "incorrect": 4999,
+        "unsat": 280,
+        "skipped": 113,
+        "correct_percentage": 39.6766019066007
+    },
+    {
+        "step": 8600,
+        "correct": 3363,
+        "incorrect": 5122,
+        "unsat": 285,
+        "skipped": 115,
+        "correct_percentage": 39.63464938126105
+    },
+    {
+        "step": 8800,
+        "correct": 3442,
+        "incorrect": 5241,
+        "unsat": 294,
+        "skipped": 117,
+        "correct_percentage": 39.64067718530462
+    },
+    {
+        "step": 9000,
+        "correct": 3526,
+        "incorrect": 5353,
+        "unsat": 302,
+        "skipped": 121,
+        "correct_percentage": 39.71167924315802
+    },
+    {
+        "step": 9200,
+        "correct": 3611,
+        "incorrect": 5468,
+        "unsat": 307,
+        "skipped": 121,
+        "correct_percentage": 39.773102764621655
+    },
+    {
+        "step": 9400,
+        "correct": 3693,
+        "incorrect": 5583,
+        "unsat": 318,
+        "skipped": 124,
+        "correct_percentage": 39.8124191461837
+    },
+    {
+        "step": 9600,
+        "correct": 3766,
+        "incorrect": 5708,
+        "unsat": 326,
+        "skipped": 126,
+        "correct_percentage": 39.75089719231581
+    },
+    {
+        "step": 9800,
+        "correct": 3840,
+        "incorrect": 5831,
+        "unsat": 330,
+        "skipped": 129,
+        "correct_percentage": 39.706338537896805
+    },
+    {
+        "step": 10000,
+        "correct": 3922,
+        "incorrect": 5946,
+        "unsat": 335,
+        "skipped": 132,
+        "correct_percentage": 39.74462910417511
+    },
+    {
+        "step": 10200,
+        "correct": 3983,
+        "incorrect": 6081,
+        "unsat": 344,
+        "skipped": 136,
+        "correct_percentage": 39.57670906200318
+    },
+    {
+        "step": 10400,
+        "correct": 4067,
+        "incorrect": 6197,
+        "unsat": 351,
+        "skipped": 136,
+        "correct_percentage": 39.62392829306313
+    },
+    {
+        "step": 10600,
+        "correct": 4144,
+        "incorrect": 6317,
+        "unsat": 361,
+        "skipped": 139,
+        "correct_percentage": 39.61380365165854
+    },
+    {
+        "step": 10800,
+        "correct": 4214,
+        "incorrect": 6445,
+        "unsat": 368,
+        "skipped": 141,
+        "correct_percentage": 39.53466554085749
+    },
+    {
+        "step": 11000,
+        "correct": 4300,
+        "incorrect": 6556,
+        "unsat": 374,
+        "skipped": 144,
+        "correct_percentage": 39.609432571849666
+    },
+    {
+        "step": 11200,
+        "correct": 4381,
+        "incorrect": 6675,
+        "unsat": 380,
+        "skipped": 144,
+        "correct_percentage": 39.625542691751086
+    },
+    {
+        "step": 11400,
+        "correct": 4455,
+        "incorrect": 6800,
+        "unsat": 382,
+        "skipped": 145,
+        "correct_percentage": 39.58240781874722
+    },
+    {
+        "step": 11600,
+        "correct": 4544,
+        "incorrect": 6910,
+        "unsat": 391,
+        "skipped": 146,
+        "correct_percentage": 39.67173039986031
+    },
+    {
+        "step": 11800,
+        "correct": 4623,
+        "incorrect": 7027,
+        "unsat": 397,
+        "skipped": 150,
+        "correct_percentage": 39.682403433476395
+    },
+    {
+        "step": 12000,
+        "correct": 4697,
+        "incorrect": 7151,
+        "unsat": 406,
+        "skipped": 152,
+        "correct_percentage": 39.64382174206617
+    },
+    {
+        "step": 12200,
+        "correct": 4770,
+        "incorrect": 7274,
+        "unsat": 414,
+        "skipped": 156,
+        "correct_percentage": 39.60478246429758
+    },
+    {
+        "step": 12400,
+        "correct": 4843,
+        "incorrect": 7401,
+        "unsat": 420,
+        "skipped": 156,
+        "correct_percentage": 39.55406729826854
+    },
+    {
+        "step": 12578,
+        "correct": 4906,
+        "incorrect": 7515,
+        "unsat": 427,
+        "skipped": 157,
+        "correct_percentage": 39.4976249899364
+    }
+]
