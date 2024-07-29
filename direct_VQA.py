@@ -6,9 +6,10 @@ from PIL import Image
 import io
 from litellm import completion
 import argparse
+from utils import *
 
 # Set environment variables for API keys
-os.environ["OPENAI_API_KEY"] = "sk-None-jFbxGP93PDk2Yk1vo63ST3BlbkFJQtK4HzVLPQ17LsRxkjaI"
+# os.environ["OPENAI_API_KEY"] = "sk-None-jFbxGP93PDk2Yk1vo63ST3BlbkFJQtK4HzVLPQ17LsRxkjaI"
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
