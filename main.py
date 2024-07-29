@@ -6,9 +6,28 @@ from prompt.prompt_builder import PromptBuilder
 from utils import *
 from tqdm import tqdm
 
-seed = os.urandom(16)
-random.seed(seed)
+from contextlib import redirect_stdout, redirect_stderr
 
+# Set up logging configuration
+# logging.basicConfig(filename='clingo_errors.log', level=logging.ERROR,
+#                     format='%(asctime)s:%(levelname)s:%(message)s')
+
+# Function to capture stdout and stderr
+def capture_output(theory, examples):
+    stdout = io.StringIO()
+    stderr = io.StringIO()
+    with redirect_stdout(stdout), redirect_stderr(stderr):
+        # try:
+        run_asp_code(theory, examples)
+        # except clingo.ClingoError as e:
+        #     logging.error(f"Clingo error occurred: {e}")
+        # except Exception as e:
+        #     logging.error(f"An unexpected error occurred: {e}")
+    return stdout.getvalue(), stderr.getvalue()
+
+seed = os.urandom(16)
+# seed = b'\xc3-\xc8\xe9\\\xd6\x866@\x1e\xc8t\xc4-\xad\x86'
+random.seed(seed)
 
 def main(args):
 
@@ -18,7 +37,6 @@ def main(args):
     current_example = 0
     max_retries = args.max_retries
     max_mend_retries = args.mend_retries
-
     learning_examples = args.learning_examples
     batch_examples = args.batch_examples
     model = args.model
@@ -29,43 +47,35 @@ def main(args):
     remove_predicate = args.remove_predicate
     state_mending = args.state_mending
     batch_theory = args.batch_theory
+    dataset = args.dataset
+    chosen_theory = args.chosen_theory
 
     regression_examples = []
 
-    pb = PromptBuilder('CLEVR')
+    pb = PromptBuilder(dataset)
     examples = pb.generate_examples(strat, k, representation, remove_predicate)
-    # print(examples)
-    # exit()
-    # examples = json.load(open(
-    #     '/home/nelson/Research/IJCAI24/logs/experiments/random_removal/select/gpt4/20240113_2107/examples_used.txt'))
-    # print(examples)
-    # print(type(examples), len(examples))
-
-    # with open("correct_examples_CLEVR.json", "w") as final:
-    # json.dump(examples, final)
-    # exit()
-    # random.shuffle(examples)
 
     print("Learning examples:", len(examples))
-    # print(examples[0]['question'])
-    # exit()
-    # print(examples)
-    # exit()
+    syntax_mending_success = 0
+    semantic_mending_success = 0
 
-    incumbent_theory = ''.join(
-        open('/home/nelson/Research/IJCAI24/preprompt/theory/CLEVR/perfect_theory.lp').readlines())
-        # open('/home/nelson/Research/IJCAI24/preprompt/theory/CLEVR/perfect_theory.lp').readlines())
-        
+    if chosen_theory:
+        incumbent_theory = ''.join(open(chosen_theory).readlines())
+
+    else:
+        incumbent_theory = ''.join(
+        open(f'/home/nhiguera/Research/KR2024/preprompt/theory/{dataset}/perfect_theory.lp').readlines())
+
     if batch_theory:
         if batch_theory == 'light':
             incumbent_theory = ''.join(
-                open('/home/nelson/Research/IJCAI24/preprompt/theory/CLEVR/CLEVR_light.lp').readlines())
+                open(f'./preprompt/theory/{dataset}/light.lp').readlines())
         if batch_theory == 'medium':
             incumbent_theory = ''.join(
-                open('/home/nelson/Research/IJCAI24/preprompt/theory/CLEVR/CLEVR_medium.lp').readlines())
+                open(f'./preprompt/theory/{dataset}/medium.lp').readlines())
         if batch_theory == 'heavy':
             incumbent_theory = ''.join(
-                open('/home/nelson/Research/IJCAI24/preprompt/theory/CLEVR/CLEVR_heavy.lp').readlines())
+                open(f'./preprompt/theory/{dataset}/heavy.lp').readlines())
                     
 
     if remove_random_percentage:
@@ -78,7 +88,7 @@ def main(args):
 
     initial_theory = incumbent_theory
 
-    date_str = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    date_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
     log_incumbent_theory(date_str,
                          incumbent_theory, model, max_retries, learning_examples, current_example, batch_examples)
@@ -114,24 +124,13 @@ def main(args):
                 current_example += 1
             continue
 
-        # print(current_example)
-
         retries = 0
         preprompt = pb.generate_preprompt([incumbent_theory])
-        # print(preprompt)
-        # exit()
 
         while retries < max_retries:
 
-            # print(prompt, preprompt)
-            
             response = ask_LLM(prompt, preprompt, model)
-            # print(response)
             response = response.replace('\\_', '_')
-
-            # print(prompt)
-            # print(response)
-            # exit()
 
             extended_theory = incumbent_theory + '\n' + response
             syntax_check, syntax_error = check_asp_syntax(extended_theory)
@@ -139,41 +138,30 @@ def main(args):
                 semantic_check, semantic_error = run_asp_code(
                     extended_theory, incumbent_examples)
                 if semantic_check:
-                    # if args.merge_theories:
-                    #     new_theory = merge_asp_encodings(
-                    #         incumbent_theory, extended_theory, model)
-                    #     if check_asp_syntax(new_theory):
-                    #         incumbent_theory = new_theory
-                    #         break
-
                     if args.regressive_test:
                         for example in incumbent_examples:
                             regression_examples.append(example)
                         semantic_check, semantic_errors = run_asp_code(
                             extended_theory, regression_examples)
                         if semantic_check:
-                            print('Regressive Test Sucess')
+                            print('Regressive Test Success')
                             incumbent_theory = extended_theory
+                            syntax_correct_count += batch_examples
+                            solution_correct_count += batch_examples
                             break
 
-                    incumbent_theory = extended_theory
-                    syntax_correct_count += batch_examples
-                    solution_correct_count += batch_examples
-                    break
-
-                else:
+                elif max_mend_retries:
                     mend_retries = 0
                     while mend_retries < max_mend_retries:
 
-                        # print(response, semantic_error, examples[current_example]['answer'])
                         if state_mending:
+                            state_atoms = run_asp_code_with_states(extended_theory, incumbent_examples)
                             mended_rule = mend_semantics_with_states(
-                                response, semantic_error, examples[current_example]['answer'], incumbent_theory, preprompt, model)
+                                response, semantic_error, examples[current_example]['answer'], incumbent_theory, preprompt, model, state_atoms)
                         else:
                             mended_rule = mend_semantics(
                                 response, semantic_error, examples[current_example]['answer'], incumbent_theory, preprompt, model)
-                        # print(mended_rule)
-                        # exit()
+
                         mended_rule = mended_rule.replace('\\_', '_')
 
                         extended_theory = incumbent_theory + '\n' + mended_rule
@@ -182,37 +170,33 @@ def main(args):
                             semantic_check, error = run_asp_code(
                                 extended_theory, incumbent_examples)
                             if semantic_check:
-
+                                semantic_mending_success+=1
                                 if args.regressive_test:
                                     for example in incumbent_examples:
                                         regression_examples.append(example)
                                     semantic_check, semantic_errors = run_asp_code(
                                         extended_theory, regression_examples)
                                     if semantic_check:
-                                        print('Regressive Test Sucess')
+                                        print('Regressive Test Success')
                                         incumbent_theory = extended_theory
+                                        syntax_correct_count += batch_examples
+                                        solution_correct_count += batch_examples
                                         break
 
-                                incumbent_theory = extended_theory
-                                syntax_correct_count += batch_examples
-                                solution_correct_count += batch_examples
-                                break
+                                # incumbent_theory = extended_theory
+                                # break
                         mend_retries += 1
 
-            else:
+            elif max_mend_retries:
                 mend_retries = 0
                 while mend_retries < max_mend_retries:
-                    # print('initial rules', response)
-                    # print('ERROR')
-                    # print('error', syntax_error)
                     mended_rule = mend_syntax(
                         response, syntax_error, preprompt, model)
                     mended_rule.replace('\\_', '_')
-                    # print('mended_rule', mended_rule)
-                    # exit()
                     extended_theory = incumbent_theory + '\n' + mended_rule
                     syntax_check, error = check_asp_syntax(extended_theory)
                     if syntax_check:
+                        syntax_mending_success+=1
                         semantic_check, error = run_asp_code(
                             extended_theory, incumbent_examples)
                         if semantic_check:
@@ -268,7 +252,7 @@ def main(args):
     print(f"Final Training Correct Solutions: {final_correct_train}")
     print(f"Total Training Examples: {learning_examples}")
 
-    test_suite = open('./dataset/CLEVR/test_suite.json')
+    test_suite = open('./dataset/GQA/test_suite.json')
     test_suite = json.load(test_suite)
     learning_examples = len(test_suite)
     final_correct_test = 0
@@ -284,23 +268,10 @@ def main(args):
     print(f"Final Correct Solutions: {final_correct_test}")
     print(f"Total Solutions: {learning_examples}")
     print(f"Percentage: {final_correct_test/learning_examples*100}")
-
-    # print('Validating Initial Theory')
-
-    # final_correct_initial_theory = 0
-
-    # if args.validate:
-    # for i in tqdm(range(learning_examples)):
-    #     x,y = run_asp_code(initial_theory, [test_suite[i]])
-    #     if x:
-    #         final_correct_initial_theory += 1
-    # else:
-    #     final_correct_initial_theory = -1
-
-    # print(f"Final Initial Theory Solutions: {final_correct_initial_theory}, {final_correct_initial_theory/learning_examples*100}")
+    print(f"Syntax Mendings: {syntax_mending_success}")
+    print(f"Semantic Mendings: {semantic_mending_success}")
     
-    write_to_log('./logs/'+date_str+'/config_log.txt', seed, args, f"Final Training Correct Solutions: {
-                 final_correct_train}", f"Final Correct Solutions: {final_correct_test}", f"Average: {round(final_correct_test/learning_examples*100,2)}")
+    write_to_log('./logs/'+date_str+'/config_log.txt', seed, args, f"Final Training Correct Solutions: {final_correct_train}", f"Final Correct Solutions: {final_correct_test}", f"Average: {round(final_correct_test/learning_examples*100,2)}", f"Syntax Mendings: {syntax_mending_success}", f"Semantic Mendings: {semantic_mending_success}")
     save_examples('./logs/'+date_str+'/examples_used.txt', examples)
 
 
@@ -309,32 +280,52 @@ if __name__ == "__main__":
         description="ASP Encoding and LLM Interaction")
     parser.add_argument("--max_retries", type=int, default=1,
                         help="Maximum number of retries")
-    parser.add_argument("--mend_retries", type=int, default=1,
+    
+    parser.add_argument("--mend_retries", type=int, default=0,
                         help="Maximum number of mending retries")
+    
     parser.add_argument("--learning_examples", type=int,
                         default=0, help="Number of learning examples")
+    
     parser.add_argument("--batch_examples", type=int,
                         default=0, help="Number of batch examples")
+    
     parser.add_argument("--model", type=str,
                         default="gpt-4-1106-preview", help="LLM model to be used")
-    parser.add_argument("--strategy", type=str, default="pred",
+    
+    parser.add_argument("--strategy", type=str, default="len",
                         help="Strategy used to sample examples")
-    parser.add_argument("--sample_sz", type=int, default=10,
+    
+    parser.add_argument("--sample_sz", type=int, default=2,
                         help="Sample size for the strategy selected")
+    
     parser.add_argument("--regressive_test", default=True, type=bool,
                         help="Use regressive testing of previous examples")
+    
     parser.add_argument("--representation", type=str, default="flat",
                         help="Representation to be used")
-    parser.add_argument("--remove_random", type=int, default=0,
+    
+    parser.add_argument("--remove_random", type=int, default=10,
                         help="Remove a percentage of random lines from the perfect theory to use as initial theory.")
-    parser.add_argument("--remove_predicate", type=str, default=None,
+    
+    parser.add_argument("--remove_predicate", type=str, default=None, 
                         help="Remove any rule where the predicated selected appears in the perfect theory and use this as initial theory.")
+    
     parser.add_argument("--state_mending", type=bool, default=False,
                         help="Use semantic mending with states of the program.")
+    
     parser.add_argument("--batch_theory", type=str, default="",
                         help="Which batch theory to use.")
+    
+    parser.add_argument("--dataset", type=str, default="GQA",
+                        help="Which dataset to use, GQA or CLEVR.")   
+    
+    parser.add_argument("--chosen_theory", type=str, default=None,
+                        help="Path to a handchosen theory to fill.")   
+    
     # parser.add_argument("--no_examples", type=bool, default=False,
     #                     help="Pass only the theory and autocomplete inmediately.")
+
     # parser.add_argument("--question_type", type=str,
     #                     help="Select a subset of questions from the dataset")
 
