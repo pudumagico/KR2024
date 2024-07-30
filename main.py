@@ -134,6 +134,7 @@ def main(args):
 
             extended_theory = incumbent_theory + '\n' + response
             syntax_check, syntax_error = check_asp_syntax(extended_theory)
+            print(syntax_error)
             if syntax_check:
                 semantic_check, semantic_error = run_asp_code(
                     extended_theory, incumbent_examples)
@@ -155,7 +156,9 @@ def main(args):
                     while mend_retries < max_mend_retries:
 
                         if state_mending:
+                            print('state mending')
                             state_atoms = run_asp_code_with_states(extended_theory, incumbent_examples)
+                            print(state_atoms)
                             mended_rule = mend_semantics_with_states(
                                 response, semantic_error, examples[current_example]['answer'], incumbent_theory, preprompt, model, state_atoms)
                         else:
@@ -281,7 +284,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_retries", type=int, default=1,
                         help="Maximum number of retries")
     
-    parser.add_argument("--mend_retries", type=int, default=0,
+    parser.add_argument("--mend_retries", type=int, default=1,
                         help="Maximum number of mending retries")
     
     parser.add_argument("--learning_examples", type=int,
@@ -293,10 +296,10 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=str,
                         default="gpt-4-1106-preview", help="LLM model to be used")
     
-    parser.add_argument("--strategy", type=str, default="len",
+    parser.add_argument("--strategy", type=str, default="pred",
                         help="Strategy used to sample examples")
     
-    parser.add_argument("--sample_sz", type=int, default=2,
+    parser.add_argument("--sample_sz", type=int, default=10,
                         help="Sample size for the strategy selected")
     
     parser.add_argument("--regressive_test", default=True, type=bool,
@@ -305,13 +308,13 @@ if __name__ == "__main__":
     parser.add_argument("--representation", type=str, default="flat",
                         help="Representation to be used")
     
-    parser.add_argument("--remove_random", type=int, default=10,
+    parser.add_argument("--remove_random", type=int, default=0,
                         help="Remove a percentage of random lines from the perfect theory to use as initial theory.")
     
     parser.add_argument("--remove_predicate", type=str, default=None, 
                         help="Remove any rule where the predicated selected appears in the perfect theory and use this as initial theory.")
     
-    parser.add_argument("--state_mending", type=bool, default=False,
+    parser.add_argument("--state_mending", type=bool, default=True,
                         help="Use semantic mending with states of the program.")
     
     parser.add_argument("--batch_theory", type=str, default="",
